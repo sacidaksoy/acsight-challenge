@@ -1,0 +1,29 @@
+@import '../../../scss/Typography.scss';
+@import '../../../scss/Variables.scss';
+
+.modal-content {
+    border: none !important;
+    background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%) !important;
+    .modal-title {
+        @include subtitle($white-color);
+    }
+}
+
+.modal-header {
+    border: none !important;
+    color: $white-color !important;
+    .btn-close {
+        background-color: $white-color !important;
+    }
+}
+
+.modal-body {
+    color: $white-color !important;
+}
+
+.modal-footer {
+    border: none !important;
+    .btn-light {
+        color: $primary-color !important;
+    }
+}

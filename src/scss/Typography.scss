@@ -1,0 +1,24 @@
+@mixin title($color) {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $color;
+}
+
+@mixin subtitle($color) {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: $color;
+}
+
+@mixin regularText($color) {
+    font-size: 1rem;
+    font-weight: 400;
+    color: $color;
+}
+
+@mixin content($color) {
+    font-size: 0.8rem;
+    font-weight: 300 !important;
+    letter-spacing: 0.15px;
+    color: $color;
+}

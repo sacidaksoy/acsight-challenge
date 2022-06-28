@@ -1,0 +1,58 @@
+//molecules
+@import url('./components/molecules/CustomTable/CustomTable.scss');
+@import url('./components/molecules/CustomModal/CustomModal.scss');
+
+// pages
+@import url('./pages/NotFound/NotFound.scss');
+@import url('./pages/Login/Login.scss');
+@import url('./pages/Providers/Providers.scss');
+
+.App {
+    background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+@media screen and (max-width: 1000px) {
+    .main-container {
+        padding: 0 20px;
+    }
+}
+
+@media screen and (min-width: 1000px) and (max-width: 1250px) {
+    .main-container {
+        padding: 0 100px;
+    }
+}
+
+@media screen and (min-width: 1250px) and (max-width: 1400px) {
+    .main-container {
+        padding: 0 200px;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1500px) {
+    .main-container {
+        padding: 0 250px;
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    .main-container {
+        padding: 0 350px;
+    }
+}
+
+
+.padding-vertical-80 {
+    padding-top: 80px;
+    padding-bottom: 40px;
+}
+
+// media queries
+@media (max-height: 750px) {
+    .padding-vertical-80 {
+        padding-top: 40px;
+    } 
+}
