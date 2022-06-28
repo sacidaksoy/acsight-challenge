@@ -6,7 +6,7 @@ import axios from "axios";
  * @params {object} baseURL: value
  */
 const axiosInstance = axios.create({
-    baseURL: "https://c4f2.acsight.com:7770/api/system/",
+    baseURL: "http://c4f2.acsight.com:7770/api/system/",
     //   config,
 });
 
