@@ -15,7 +15,7 @@ export const getToken = (username, password) => {
     bodyFormData.append('username', username);
     bodyFormData.append('password', password);
 
-    const tokenRequest = Request.post("http://c4f2.acsight.com:7710/connect/token", bodyFormData, 
+    const tokenRequest = Request.post("https://c4f2.acsight.com:7710/connect/token", bodyFormData, 
     {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
