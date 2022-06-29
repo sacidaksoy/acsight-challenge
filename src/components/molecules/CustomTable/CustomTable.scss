@@ -17,6 +17,9 @@ table {
     border-collapse: separate !important;
     border-spacing: 0 0.7em;
     margin-bottom: 5px !important;
+    td {
+        height: 57px !important;
+    }
     tbody {
         tr {
             background-color: #fff;
