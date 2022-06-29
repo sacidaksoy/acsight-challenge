@@ -17,7 +17,8 @@ const CustomTable = forwardRef(({ tableColumns, tableData, tableRow, icons, fetc
     const instance = useTable({
         columns,
         data,
-        initialState: { pageSize: tableRow }
+        initialState: { pageSize: tableRow },
+        autoResetPage: false,
     },
         useGlobalFilter,
         useSortBy,
