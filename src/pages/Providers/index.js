@@ -15,7 +15,9 @@ function Providers() {
     const tableInstance = useRef(null);
     const [modalShow, setModalShow] = useState(false);
 
+    const [modalLabel, setModalLabel] = useState("");
     const [editValues, setEditValues] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
 
 
     const providers = useSelector((state) => state.provideReducer.providers);
@@ -55,18 +57,24 @@ function Providers() {
             image: editIcon,
             onClick: async (provider) => {
                 console.log("provider", provider);
-                setModalShow(true);
-                setEditValues(
-                    {
-                        ...provider
-                    }
-                )
-                console.log(editValues);
+                if (provider.partnerID !== 0) {
+                    setModalLabel("Edit Provider");
+                    setModalShow(true);
+                    setEditValues(
+                        {
+                            ...provider
+                        }
+                    )
+                } else {
+                    setErrorMessage(`You can not edit ${provider.fromName}`);
+                    setModalLabel("Error");
+                    setModalShow(true);
+                }
+               
+                // console.log(editValues);
             }
         },
     ]
-
-    // providerID, baseURL, fromName, username, password
 
     return (
         <>
@@ -82,13 +90,15 @@ function Providers() {
                     fetchProducts={fetchProducts}
                 />
                 <div className='product-list-bottom'>
-                    <button onClick={() => setModalShow(true)}>Create New Provider</button>
+                    <button onClick={() => {setModalLabel("New Provider"); setModalShow(true)}}>Create New Provider</button>
                 </div>
             </div>
             <CustomModal
-                title={'New Provider'}
+                title={modalLabel}
                 inputs={inputs}
                 select={enums}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
                 onOk={modalShow}
                 editValues={editValues}
                 fetchProducts={fetchProducts}
