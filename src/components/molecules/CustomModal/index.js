@@ -3,12 +3,10 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { ProvideService } from '../../../service';
 
-function CustomModal({ className, title, message, inputs, select, buttons, onOk, onClose, editValues, fetchProducts, ...props }) {
+function CustomModal({ className, title, message, inputs, select, buttons, onOk, onClose, errorMessage, setErrorMessage, editValues, fetchProducts, ...props }) {
 
     const dispatch = useDispatch();
-
-    const [providerID, setOptionValue] = useState("");
-    const [values, setValues] = useState({
+    const initialValues = {
         baseURL: '',
         fromName: '',
         username: '',
@@ -18,13 +16,25 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
         secretKey: '',
         accountSID: '',
         authToken: '',
-    })
+    }
+
+    const [providerID, setOptionValue] = useState("");
+    const [values, setValues] = useState(initialValues);
 
     useEffect(() => {
         if (editValues) {
             setValues({ ...editValues });
+            setOptionValue(editValues.providerID);
         }
     }, [editValues])
+
+    const handleClose = () => {
+        setErrorMessage(null);
+        onClose();
+        setValues(initialValues);
+        setOptionValue("");
+        
+    }
 
     const handleInput = (e) => {
         const { name, value } = e.target;
@@ -44,6 +54,8 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
         try {
             if (editValues) {
                 const data = await ProvideService.editProvider(editValues.id, providerID, values);
+                setValues("");
+                setOptionValue("");
                 console.log(data);
             } else {
                 console.log("handleSetProvider: ", values);
@@ -52,7 +64,8 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
                 console.log(data);
             }
             fetchProducts();
-            onClose();
+            handleClose();
+            setValues(initialValues);
         } catch (error) {
             console.log(error)
         } finally {
@@ -63,7 +76,7 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
     return (
         <Modal
             {...props}
-            onHide={onClose}
+            onHide={handleClose}
             show={onOk}
             dialogClassName={className}
             size="md"
@@ -76,7 +89,7 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {select && (
+                {select && !errorMessage && (
                     <>
                         <Form.Select aria-label="Default select example" value={providerID} onChange={handleChange}>
                             <option>Open this select menu (Provider Enums)</option>
@@ -89,7 +102,8 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
                         </Form.Select>
                     </>
                 )}
-                {inputs.map((input, index) => {
+                
+                {!errorMessage && inputs.map((input, index) => {
                     const { label, type } = input;
                     return (
                         <Form.Group className="mb-3" controlId="formBasicEmail" key={index}>
@@ -98,15 +112,13 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
                         </Form.Group>
                     )
                 })}
-                <Form.Check
-                    type="switch"
-                    id="custom-switch"
-                    label="Check this switch"
-                />
+                {errorMessage}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant={"primary"} onClick={onClose}>{"Close"}</Button>
+                <Button variant={"primary"} onClick={handleClose}>{"Close"}</Button>
+                {!errorMessage && (
                 <Button variant={"light"} onClick={handleSetProvider}>{"Submit"}</Button>
+                )}
             </Modal.Footer>
         </Modal>
     );
