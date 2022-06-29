@@ -1,5 +1,5 @@
 import { useTable, useSortBy, useGlobalFilter, usePagination } from 'react-table';
-import { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
+import { forwardRef, useImperativeHandle, useMemo } from 'react';
 import { Form, Table } from 'react-bootstrap';
 import ReactPaginate from 'react-paginate';
 import { useDispatch } from 'react-redux';
@@ -10,8 +10,7 @@ import { enums } from '../../../constants/constants';
 const CustomTable = forwardRef(({ tableColumns, tableData, tableRow, icons, fetchProducts }, ref) => {
 
     const dispatch = useDispatch();
-    const [checkValue, setCheckValue] = useState("");
-
+    
     const columns = useMemo(() => tableColumns);
     const data = useMemo(() => tableData);
 
@@ -43,23 +42,12 @@ const CustomTable = forwardRef(({ tableColumns, tableData, tableRow, icons, fetc
 
     useImperativeHandle(ref, () => instance);
 
-    const handleStatusChange = (e) => {
-        setCheckValue(e.target.checked);
-    }
-
-    console.log(checkValue);
-
     const handleStatusProvider = async (id, status) => {
         dispatch({ type: 'SET_LOADING', payload: true })
-        console.log("stat values: ", id, status);
         let convertedStatus;
         try {
-            if (status === true) {
-                convertedStatus = 0;
-            } else {
-                convertedStatus = 1;
-            }
-            const data = await ProvideService.statusProvider(id, convertedStatus);
+            const data = await ProvideService.statusProvider(id, status);
+            console.log("stat values: ", id, convertedStatus, "data", data);
             fetchProducts();
         }
         catch (error) {
@@ -102,13 +90,13 @@ const CustomTable = forwardRef(({ tableColumns, tableData, tableRow, icons, fetc
                                             if (cell.column.id === 'password') {
                                                 return <td className="hidetext" key={index}>{cell.value}</td>
                                             } else if (cell.column.id === 'status') {
-                                                return (<td key={index}>
+                                                return (<td key={row.original.id}>
                                                     <Form.Check
                                                         type="switch"
                                                         id="custom-switch"
+                                                        disabled={row.original.partnerID === 0 ? true : false}
                                                         defaultChecked={row.original.status}
-                                                        onChange={handleStatusChange}
-                                                        onClick={() => handleStatusProvider(row.original.id, checkValue)}
+                                                        onClick={() =>handleStatusProvider(row.original.id, !row.original.status)}
                                                     />
                                                 </td>)
                                             } else if (cell.column.id === 'providerID') {
