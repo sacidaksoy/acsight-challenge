@@ -83,7 +83,7 @@ function Providers() {
                 <CustomTable
                     tableColumns={COLUMNS}
                     tableData={providers}
-                    tableRow={4}
+                    tableRow={6}
                     ref={tableInstance}
                     searchBar
                     icons={ICONS}
