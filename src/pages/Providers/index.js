@@ -55,7 +55,7 @@ function Providers() {
         {
             id: 1,
             image: editIcon,
-            onClick: async (provider) => {
+            onClick: async (provider) => { // row.original
                 console.log("provider", provider);
                 if (provider.partnerID !== 0) {
                     setModalLabel("Edit Provider");
@@ -85,7 +85,7 @@ function Providers() {
                     tableData={providers}
                     tableRow={6}
                     ref={tableInstance}
-                    searchBar
+                    searchBars
                     icons={ICONS}
                     fetchProducts={fetchProducts}
                 />

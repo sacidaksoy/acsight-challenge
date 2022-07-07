@@ -66,7 +66,7 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
             fetchProducts();
             handleClose();
             setValues(initialValues);
-        } catch (error) {
+        } catch (error) {  // validation needded PROVIDER_ID edit && create --- Loading status
             console.log(error)
         } finally {
             dispatch({ type: 'SET_LOADING', payload: false })
