@@ -1,3 +1,4 @@
+import { toasterNotifications } from "../constants/toasterNotifications";
 import { Request, UtilityFunctions } from "../utils";
 
 
@@ -10,7 +11,7 @@ import { Request, UtilityFunctions } from "../utils";
 export const getProvider = () => {
     const todoRequest = Request.get("sms-provider-list");
 
-    UtilityFunctions.asyncToaster(todoRequest, {});
+    // UtilityFunctions.asyncToaster(todoRequest, {});
 
     return todoRequest;
 };
@@ -33,7 +34,7 @@ export const setProvider = (providerID, values) => {
             "Status": true,
         });
 
-    UtilityFunctions.asyncToaster(todoRequest, {});
+    UtilityFunctions.asyncToaster(todoRequest, toasterNotifications.setProvider);
 
     return todoRequest;
 };
@@ -56,7 +57,7 @@ export const editProvider = (id, providerID, values) => {
             "Status": true,
         });
 
-    UtilityFunctions.asyncToaster(todoRequest, {});
+    UtilityFunctions.asyncToaster(todoRequest, toasterNotifications.editProvider);
 
     return todoRequest;
 };
@@ -70,7 +71,7 @@ export const statusProvider = (id, stat) => {
             }
         });
 
-    UtilityFunctions.asyncToaster(todoRequest, {});
+    UtilityFunctions.asyncToaster(todoRequest, toasterNotifications.editProvider);
 
     return todoRequest;
 };

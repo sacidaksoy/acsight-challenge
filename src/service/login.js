@@ -1,3 +1,4 @@
+import { toasterNotifications } from "../constants/toasterNotifications";
 import { Request, UtilityFunctions } from "../utils";
 
 /**
@@ -22,7 +23,7 @@ export const getToken = (username, password) => {
           }
     });
 
-    UtilityFunctions.asyncToaster(tokenRequest, {});
+    UtilityFunctions.asyncToaster(tokenRequest, toasterNotifications.login);
 
     return tokenRequest;
 };
