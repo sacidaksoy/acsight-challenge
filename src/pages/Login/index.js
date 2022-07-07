@@ -7,8 +7,7 @@ function Login() {
 
     let navigate = useNavigate();
 
-    const state = useSelector((state) => state);
-    const { appReducer } = state;
+    const isLoading = useSelector((state) => state.appReducer.isLoading);
     const dispatch = useDispatch()
 
     const [password, setPassword] = useState("");
@@ -85,7 +84,7 @@ function Login() {
                     <small id="passworderror" className="text-danger form-text">
                         {passwordError}
                     </small>
-                    <button>login</button>
+                    <button disabled={isLoading}>login</button>
                 </form>
             </div>
         </div>
