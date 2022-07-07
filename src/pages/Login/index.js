@@ -7,7 +7,7 @@ function Login() {
 
     let navigate = useNavigate();
 
-    const isLoading = useSelector((state) => state.appReducer.isLoading);
+    const { isLoading } = useSelector((state) => state.appReducer);
     const dispatch = useDispatch()
 
     const [password, setPassword] = useState("");
