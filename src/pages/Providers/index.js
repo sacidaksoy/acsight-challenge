@@ -68,7 +68,7 @@ function Providers() {
                 } else {
                     setErrorMessage(`You can not edit ${provider.fromName}`);
                     setModalLabel("Error");
-                    setModalShow(true);
+                    setModalShow(false);
                 }
                
                 // console.log(editValues);
@@ -85,7 +85,7 @@ function Providers() {
                     tableData={providers}
                     tableRow={6}
                     ref={tableInstance}
-                    searchBars
+                    // searchBars
                     icons={ICONS}
                     fetchProducts={fetchProducts}
                 />
