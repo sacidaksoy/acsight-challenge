@@ -18,7 +18,8 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
         authToken: '',
     }
 
-    const [providerID, setOptionValue] = useState("");
+    const [providerID, setOptionValue] = useState(0);
+    const [providerError, setProviderError] = useState(null);
     const [values, setValues] = useState(initialValues);
 
     useEffect(() => {
@@ -29,11 +30,11 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
     }, [editValues])
 
     const handleClose = () => {
-        setErrorMessage(null);
         onClose();
+        setErrorMessage(null);
+        setProviderError(null);
         setValues(initialValues);
-        setOptionValue("");
-        
+        setOptionValue(0);
     }
 
     const handleInput = (e) => {
@@ -46,30 +47,49 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
     };
 
     const handleChange = (e) => {
-        setOptionValue(e.target.value)
+        setOptionValue(e.target.value);
+        if (e.target.value !== 0) {
+            setProviderError(null);
+        }
+    }
+
+    const handleValidation = (event) => {
+        let formIsValid = true;
+
+        if (providerID === 0) {
+            formIsValid = false;
+            setProviderError("Please select one of the Providers");
+            return false;
+        } else {
+            setProviderError(null);
+            formIsValid = true;
+        }
+
+        return formIsValid;
     }
 
     const handleSetProvider = async () => {
         dispatch({ type: 'SET_LOADING', payload: true })
-        try {
-            if (editValues) {
-                const data = await ProvideService.editProvider(editValues.id, providerID, values);
-                setValues("");
-                setOptionValue("");
-                console.log(data);
-            } else {
-                console.log("handleSetProvider: ", values);
-                const data = await ProvideService.setProvider(providerID, values);
-                // dispatch({ type: "SET_PROVIDER", payload: data.data.partnerProviders });
-                console.log(data);
+        if (handleValidation()) {
+            try {
+                if (editValues) {
+                    const data = await ProvideService.editProvider(editValues.id, providerID, values);
+                    setValues("");
+                    setOptionValue("");
+                    console.log(data);
+                } else {
+                    console.log("handleSetProvider: ", values);
+                    const data = await ProvideService.setProvider(providerID, values);
+                    console.log(data);
+                }
+                fetchProducts();
+                handleClose();
+                setValues(initialValues);
+            } catch (error) {  // validation needded PROVIDER_ID edit && create --- Loading status
+                console.log(error)
+            } finally {
+                dispatch({ type: 'SET_LOADING', payload: false })
             }
-            fetchProducts();
-            handleClose();
-            setValues(initialValues);
-        } catch (error) {  // validation needded PROVIDER_ID edit && create --- Loading status
-            console.log(error)
-        } finally {
-            dispatch({ type: 'SET_LOADING', payload: false })
         }
     };
 
@@ -92,7 +112,7 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
                 {select && !errorMessage && (
                     <>
                         <Form.Select aria-label="Default select example" value={providerID} onChange={handleChange}>
-                            <option>Open this select menu (Provider Enums)</option>
+                            <option value={0}>Open this select menu (Provider Enums)</option>
                             {select.map((item, index) => {
                                 const { option, value } = item;
                                 return (
@@ -113,6 +133,7 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
                     )
                 })}
                 {errorMessage}
+                {providerError ? <span id='provider-error'>***{providerError}</span> : ""}
             </Modal.Body>
             <Modal.Footer>
                 <Button variant={"primary"} onClick={handleClose}>{"Close"}</Button>
