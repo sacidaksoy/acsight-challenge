@@ -6,11 +6,12 @@ import { useDispatch } from 'react-redux';
 import { ProvideService } from '../../../service';
 import moment from 'moment';
 import { enums } from '../../../constants/constants';
+import BlankTable from './BlankTable';
 
 const CustomTable = forwardRef(({ tableColumns, tableData, tableRow, icons, fetchProducts }, ref) => {
 
     const dispatch = useDispatch();
-    
+
     const columns = useMemo(() => tableColumns);
     const data = useMemo(() => tableData);
 
@@ -62,24 +63,29 @@ const CustomTable = forwardRef(({ tableColumns, tableData, tableRow, icons, fetc
 
         <div className='inner-table'>
             <Table {...getTableProps()}>
-                <thead>
-                    {
-                        headerGroups.map((headerGroup, index) => (
-                            <tr {...headerGroup.getHeaderGroupProps()} key={index}>
-                                {
-                                    headerGroup.headers.map((column, index) => {
-                                        return <th {...column.getHeaderProps(column.getSortByToggleProps())} key={index}>
-                                            {column.render('Header')}
-                                            <span>
-                                                {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
-                                            </span>
-                                        </th>
-                                    })
-                                }
-                            </tr>
-                        ))
-                    }
-                </thead>
+                {
+                    data.length <= 0 ?
+                        <BlankTable /> :
+                        <thead>
+                            {
+                                headerGroups.map((headerGroup, index) => (
+                                    <tr {...headerGroup.getHeaderGroupProps()} key={index}>
+                                        {
+                                            headerGroup.headers.map((column, index) => {
+                                                return <th {...column.getHeaderProps(column.getSortByToggleProps())} key={index}>
+                                                    {column.render('Header')}
+                                                    <span>
+                                                        {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
+                                                    </span>
+                                                </th>
+                                            })
+                                        }
+                                    </tr>
+                                ))
+                            }
+                        </thead>
+                }
+
                 <tbody {...getTableBodyProps()}>
                     {
                         page.map((row, index) => {
@@ -97,7 +103,7 @@ const CustomTable = forwardRef(({ tableColumns, tableData, tableRow, icons, fetc
                                                         id="custom-switch"
                                                         disabled={row.original.partnerID === 0 ? true : false}
                                                         defaultChecked={row.original.status}
-                                                        onClick={() =>handleStatusProvider(row.original.id, !row.original.status)}
+                                                        onClick={() => handleStatusProvider(row.original.id, !row.original.status)}
                                                     />
                                                 </td>)
                                             } else if (cell.column.id === 'providerID') {
