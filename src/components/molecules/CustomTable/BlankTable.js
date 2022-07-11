@@ -4,7 +4,6 @@ import CustomSpinner from "../../atoms/CustomSpinner"
 
 const BlankTable = () => {
     const { isLoading } = useSelector(state => state.appReducer);
-    console.log(isLoading);
     return (
         <div className="blank-table">
             <h2>
