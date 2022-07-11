@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { LoginService } from "../../service";
@@ -84,7 +85,7 @@ function Login() {
                     <small id="passworderror" className="text-danger form-text">
                         {passwordError}
                     </small>
-                    <button disabled={isLoading}>login</button>
+                    <Button type="submit" disabled={isLoading}>Login</Button>
                 </form>
             </div>
         </div>
