@@ -3,7 +3,7 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { ProvideService } from '../../../service';
 
-function CustomModal({ className, title, message, inputs, select, buttons, onOk, onClose, errorMessage, setErrorMessage, editValues, fetchProducts, ...props }) {
+function CustomModal({ className, title, message, inputs, select, buttons, onOk, onClose, errorMessage, setErrorMessage, editValues, setEditValues, fetchProducts, ...props }) {
 
     const dispatch = useDispatch();
     const initialValues = {
@@ -34,6 +34,7 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
         setErrorMessage(null);
         setProviderError(null);
         setValues(initialValues);
+        setEditValues(null);
         setOptionValue(0);
     }
 

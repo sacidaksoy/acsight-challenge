@@ -101,6 +101,7 @@ function Providers() {
                 setErrorMessage={setErrorMessage}
                 onOk={modalShow}
                 editValues={editValues}
+                setEditValues={setEditValues}
                 fetchProducts={fetchProducts}
                 onClose={() => setModalShow(false)}
             />
