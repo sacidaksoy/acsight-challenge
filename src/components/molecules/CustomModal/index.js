@@ -3,7 +3,7 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { ProvideService } from '../../../service';
 
-function CustomModal({ className, title, message, inputs, select, buttons, onOk, onClose, errorMessage, setErrorMessage, editValues, setEditValues, fetchProducts, ...props }) {
+function CustomModal({ className, title, message, inputs, select, buttons, onOk, onClose, editValues, setEditValues, fetchProducts, ...props }) {
 
     const dispatch = useDispatch();
     const initialValues = {
@@ -31,7 +31,6 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
 
     const handleClose = () => {
         onClose();
-        setErrorMessage(null);
         setProviderError(null);
         setValues(initialValues);
         setEditValues(null);
@@ -110,7 +109,7 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {select && !errorMessage && (
+                {select && (
                     <>
                         <Form.Select aria-label="Default select example" value={providerID} onChange={handleChange}>
                             <option value={0}>Open this select menu (Provider Enums)</option>
@@ -123,8 +122,8 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
                         </Form.Select>
                     </>
                 )}
-                
-                {!errorMessage && inputs.map((input, index) => {
+
+                {inputs.map((input, index) => {
                     const { label, type } = input;
                     return (
                         <Form.Group className="mb-3" controlId="formBasicEmail" key={index}>
@@ -133,14 +132,11 @@ function CustomModal({ className, title, message, inputs, select, buttons, onOk,
                         </Form.Group>
                     )
                 })}
-                {errorMessage}
                 {providerError ? <span id='provider-error'>***{providerError}</span> : ""}
             </Modal.Body>
             <Modal.Footer>
                 <Button variant={"primary"} onClick={handleClose}>{"Close"}</Button>
-                {!errorMessage && (
                 <Button variant={"light"} onClick={handleSetProvider}>{"Submit"}</Button>
-                )}
             </Modal.Footer>
         </Modal>
     );

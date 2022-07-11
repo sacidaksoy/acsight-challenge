@@ -14,11 +14,8 @@ function Providers() {
     const dispatch = useDispatch();
     const tableInstance = useRef(null);
     const [modalShow, setModalShow] = useState(false);
-
     const [modalLabel, setModalLabel] = useState("");
     const [editValues, setEditValues] = useState(null);
-    const [errorMessage, setErrorMessage] = useState(null);
-
 
     const providers = useSelector((state) => state.provideReducer.providers);
     useEffect(() => {
@@ -65,13 +62,7 @@ function Providers() {
                             ...provider
                         }
                     )
-                } else {
-                    setErrorMessage(`You can not edit ${provider.fromName}`);
-                    setModalLabel("Error");
-                    setModalShow(false);
                 }
-               
-                // console.log(editValues);
             }
         },
     ]
@@ -97,8 +88,6 @@ function Providers() {
                 title={modalLabel}
                 inputs={inputs}
                 select={enums}
-                errorMessage={errorMessage}
-                setErrorMessage={setErrorMessage}
                 onOk={modalShow}
                 editValues={editValues}
                 setEditValues={setEditValues}

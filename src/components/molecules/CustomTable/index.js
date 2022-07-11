@@ -122,10 +122,15 @@ const CustomTable = forwardRef(({ tableColumns, tableData, tableRow, icons, fetc
                                     }
                                     <td>
                                         <div className='table-product-icons'>
-                                            {icons.map(icon => (
-                                                <img src={icon.image} alt="" key={icon.id} onClick={() => icon.onClick(row.original)} />
-                                            ))}
-                                        </div></td>
+                                            {icons.map(icon => {
+                                                if (row.original.id > 3) {
+                                                    return  <img src={icon.image} alt="" key={icon.id} onClick={() => icon.onClick(row.original)} />
+                                                } else {
+                                                    return ""
+                                                }
+                                            })}
+                                        </div>
+                                    </td>
                                 </tr>
                             )
                         })
